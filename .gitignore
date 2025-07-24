@@ -6,7 +6,6 @@ __pycache__/
 # Virtual environments
 .env
 botcelotl-venv/
-data/reminders.txt
 
 # OS-specific
 .DS_Store
