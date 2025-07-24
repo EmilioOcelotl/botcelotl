@@ -35,8 +35,17 @@ TELEGRAM_CHAT_ID=123456789
 SITES=https://miweb1.com,https://midominio.com/proyecto
 ```
 
-3. Prueba: 
+## Prueba
 
 ```
 python scripts/run_monitor.py
 ```
+
+Este script puede ejecutarse con cron cada cierto tiempo
+
+## Ejecutar bot
+
+```
+python -m bot.run_bot
+```
+
