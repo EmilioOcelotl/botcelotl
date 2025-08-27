@@ -48,4 +48,11 @@ Este script puede ejecutarse con cron cada cierto tiempo.z
 ```
 python -m bot.run_bot
 ```
-Usar pm2 para dejar corriendo al bot. 
+
+## Configuración para pm2
+
+```
+pm2 start "./entorno-venv/bin/python -m bot.run_bot" \
+  --name "telegram_bot" \
+  --cwd "/ruta/a/la/carpeta"
+```
