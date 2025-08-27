@@ -41,11 +41,11 @@ SITES=https://miweb1.com,https://midominio.com/proyecto
 python scripts/run_monitor.py
 ```
 
-Este script puede ejecutarse con cron cada cierto tiempo
+Este script puede ejecutarse con cron cada cierto tiempo.z  
 
 ## Ejecutar bot
 
 ```
 python -m bot.run_bot
 ```
-
+Usar pm2 para dejar corriendo al bot. 
