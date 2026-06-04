@@ -7,7 +7,7 @@ def add_reminder(message: str):
     new_items = [item.strip() for item in message.split(',') if item.strip()]
     reminders.extend(new_items)
     with open(REMINDER_FILE, 'w') as f:
-        f.write(', '.join(reminders))
+        f.write('\n'.join(reminders))
 
 def get_reminders():
     if not os.path.exists(REMINDER_FILE):
@@ -16,7 +16,7 @@ def get_reminders():
         content = f.read().strip()
         if not content:
             return []
-        return [item.strip() for item in content.split(',')]
+        return [item.strip() for item in content.splitlines() if item.strip()]
 
 def clear_reminders():
     open(REMINDER_FILE, 'w').close()
