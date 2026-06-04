@@ -1,21 +1,58 @@
-# 📡 botcelotl – Monitoreo de Sitios y Notificaciones por Telegram
+# botcelotl – Recordatorio personal y notificaciones por Telegram
 
-Este proyecto implementa un bot de Telegram que verifica si tus sitios web están activos y te notifica si alguno deja de responder correctamente.
+Bot de Telegram que funciona como **cerebro notificador personal**: lee archivos
+locales en el servidor (fuente de verdad) y envía mensajes programados. También
+conserva el monitoreo de sitios web como función aparte.
 
-## ✅ Características implementadas (hasta esta etapa)
+## Características
 
-- Revisa periódicamente si uno o más sitios web están funcionando.
-- Envía alertas por Telegram si algún sitio está caído o no responde correctamente.
-- Organizado en un entorno virtual Python, con dependencias controladas.
-- Preparado para ejecutarse automáticamente (por ejemplo, vía `cron`).
+- **Rutinas fijas** (`data/rutinas.yaml`): mensajes programados por hora.
+- **Agenda dinámica** (`data/agenda.md`): prioridades, reuniones, deadlines y
+  recordatorios. Editable a mano o por comandos al bot.
+- **Resumen diario** que surfacea prioridades, reuniones y deadlines próximos.
+- **Monitoreo de sitios** (`SITES`): alerta si alguno está caído (función aparte).
+- Pensado para ejecutarse vía `cron` y dejar el bot corriendo con `pm2`.
 
-## 🚀 Requisitos
+## Fuente de verdad
+
+Estos archivos son personales y están en `.gitignore` (solo viven en local).
+Crea los tuyos a partir de las plantillas versionadas:
+
+```bash
+cp data/rutinas.example.yaml data/rutinas.yaml
+cp data/agenda.example.md data/agenda.md
+```
+
+### `data/rutinas.yaml`
+```yaml
+rutinas:
+  - hora: "07:00"        # HH:MM, hora local del servidor
+    tipo: resumen        # arma el resumen del día desde la agenda
+  - hora: "14:00"
+    mensaje: "Mensaje para las 14"
+  - hora: "23:00"
+    mensaje: "Mensaje ppara las 23"
+    # dias: [L,M,X,J,V]  # opcional; si se omite, todos los días
+```
+
+### `data/agenda.md`
+Markdown con secciones fijas (`## Prioridades`, `## Reuniones`, `## Deadlines`,
+`## Recordatorios`). Reuniones empiezan con `HH:MM`; deadlines con `AAAA-MM-DD`.
+
+## Comandos del bot (Telegram)
+
+- `prioridad: <texto>` — agrega una prioridad del día.
+- `deadline: AAAA-MM-DD <texto>` — registra un deadline.
+- `recordatorio: <texto>` — agrega recordatorio (varios separados por coma).
+- `hoy` — responde con el resumen del día.
+
+## Requisitos
 
 - Python 3.7+
 - Cuenta de Telegram
 - Bot de Telegram creado con [@BotFather](https://t.me/BotFather)
 
-## ⚙️ Instalación
+## Instalación
 
 1. Clona o descarga este repositorio:
 
@@ -38,10 +75,22 @@ SITES=https://miweb1.com,https://midominio.com/proyecto
 ## Prueba
 
 ```
+# Disparador de rutinas (simula una hora sin esperar al reloj)
+python scripts/tick.py --time 14:00
+
+# Monitoreo de sitios
 python scripts/run_monitor.py
 ```
 
-Este script puede ejecutarse con cron cada cierto tiempo.z  
+## Cron
+
+```cron
+# Rutinas: revisar cada minuto qué toca enviar según data/rutinas.yaml
+* * * * * cd /ruta/a/botcelotl && botcelotl-venv/bin/python scripts/tick.py
+
+# Monitoreo de sitios (ajusta la frecuencia a gusto)
+*/10 * * * * cd /ruta/a/botcelotl && botcelotl-venv/bin/python scripts/run_monitor.py
+```
 
 ## Ejecutar bot
 

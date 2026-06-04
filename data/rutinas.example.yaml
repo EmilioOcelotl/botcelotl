@@ -1,0 +1,14 @@
+# Plantilla. Copia este archivo a data/rutinas.yaml y edítalo:
+#   cp data/rutinas.example.yaml data/rutinas.yaml
+#
+# Rutinas fijas del día.
+# - hora: formato 24h "HH:MM", hora local del servidor.
+# - dias: opcional. Lista de L,M,X,J,V,S,D. Si se omite, aplica todos los días.
+# - tipo: "resumen" arma el digest del día desde la agenda. Si no, usa "mensaje".
+rutinas:
+  - hora: "07:00"
+    tipo: resumen
+  - hora: "14:00"
+    mensaje: "¿Ya comiste? 🍽️"
+  - hora: "23:00"
+    mensaje: "Cierra la compu 💤"

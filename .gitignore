@@ -7,6 +7,10 @@ __pycache__/
 .env
 botcelotl-venv/
 
+# Datos personales: solo en local (ver data/*.example)
+data/agenda.md
+data/rutinas.yaml
+
 # OS-specific
 .DS_Store
 Thumbs.db
