@@ -1,8 +1,3 @@
-from telegram import Bot
-from .config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
-# import asyncio
-
-bot = Bot(token=TELEGRAM_TOKEN)
-
-async def send_message(text):
-    await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=text)
+# send_message vive en telegram_bot.py (usa la application global del bot).
+# Se reexporta aquí para no romper los imports existentes (monitor, run_monitor).
+from .telegram_bot import send_message  # noqa: F401
