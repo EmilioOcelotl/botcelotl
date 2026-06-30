@@ -4,11 +4,21 @@
 # Rutinas fijas del día.
 # - hora: formato 24h "HH:MM", hora local del servidor.
 # - dias: opcional. Lista de L,M,X,J,V,S,D. Si se omite, aplica todos los días.
-# - tipo: "resumen" arma el digest del día desde la agenda. Si no, usa "mensaje".
+# - tipo: "dashboard" envía el avance de tiempo del día; "auto_cierre" cierra el
+#   cronómetro abierto; "resumen" (suspendido) armaba el digest de la agenda.
+#   Si no hay tipo, usa "mensaje".
 rutinas:
   - hora: "07:00"
-    tipo: resumen
+    tipo: dashboard
   - hora: "14:00"
     mensaje: "¿Ya comiste? 🍽️"
+  - hora: "21:00"
+    tipo: dashboard
   - hora: "23:00"
     mensaje: "Cierra la compu 💤"
+  - hora: "23:59"
+    tipo: auto_cierre
+
+  # Modo agenda suspendido: descomenta para reactivar el resumen de la agenda.
+  # - hora: "07:00"
+  #   tipo: resumen

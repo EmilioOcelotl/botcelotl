@@ -1,0 +1,26 @@
+# Plantilla. Copia este archivo a data/actividades.yaml y edítalo:
+#   cp data/actividades.example.yaml data/actividades.yaml
+#
+# Catálogo de actividades con meta diaria de tiempo.
+# - id: identificador corto y único (sin espacios).
+# - nombre: etiqueta para mostrar.
+# - meta_min: minutos al día que quieres dedicarle (meta mínima).
+# - alias: opcional. Otras palabras con las que puedes nombrar la actividad
+#   al iniciar el cronómetro (p. ej. "empiezo gym").
+actividades:
+  - id: tesis
+    nombre: Tesis
+    meta_min: 120
+    alias: [tesis, escribir, capitulo]
+  - id: trabajo
+    nombre: Buscar trabajo
+    meta_min: 60
+    alias: [trabajo, chamba, cv]
+  - id: ejercicio
+    nombre: Ejercicio
+    meta_min: 60
+    alias: [ejercicio, gym, correr]
+  - id: lectura
+    nombre: Lectura
+    meta_min: 120
+    alias: [lectura, leer, libro]

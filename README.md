@@ -6,11 +6,15 @@ conserva el monitoreo de sitios web como función aparte.
 
 ## Características
 
-- **Rutinas fijas** (`data/rutinas.yaml`): mensajes programados por hora.
-- **Agenda dinámica** (`data/agenda.md`): prioridades, reuniones, deadlines y
-  recordatorios. Editable a mano o por comandos al bot.
-- **Resumen diario** que surfacea prioridades, reuniones y deadlines próximos.
+- **Cronómetro de actividades** (`data/actividades.yaml`): metas diarias de
+  tiempo (ej. tesis 2h, trabajo 1h, ejercicio 1h). El bot lleva la cuenta con
+  comandos start/stop y muestra el avance del día.
+- **Rutinas fijas** (`data/rutinas.yaml`): mensajes programados por hora
+  (comer, dormir) y disparo del dashboard de tiempo.
 - **Monitoreo de sitios** (`SITES`): alerta si alguno está caído (función aparte).
+- **Agenda** (`data/agenda.md`): *suspendida* — el código sigue en
+  `bot/agenda.py`; para reactivar el resumen, descomenta la rutina
+  `tipo: resumen` en `data/rutinas.yaml`.
 - Pensado para ejecutarse vía `cron` y dejar el bot corriendo con `pm2`.
 
 ## Fuente de verdad
@@ -20,31 +24,44 @@ Crea los tuyos a partir de las plantillas versionadas:
 
 ```bash
 cp data/rutinas.example.yaml data/rutinas.yaml
-cp data/agenda.example.md data/agenda.md
+cp data/actividades.example.yaml data/actividades.yaml
+cp data/agenda.example.md data/agenda.md   # opcional (agenda suspendida)
 ```
+
+### Cronómetro de actividades
+
+Modelo de "presupuesto de tiempo": cada actividad tiene una meta diaria y el
+bot acumula cuánto le dedicas.
+
+- `data/actividades.yaml` — catálogo (`id`, `nombre`, `meta_min`, `alias`).
+- `data/sesion.json` — sesión (cronómetro) abierta actual. Una a la vez.
+- `data/bitacora.jsonl` — log append-only de bloques cerrados. Editable a mano
+  para corregir.
+
+El cronómetro se auto-cierra a las 23:59 (rutina `tipo: auto_cierre`) para que
+una sesión no cruce la medianoche.
 
 ### `data/rutinas.yaml`
 ```yaml
 rutinas:
   - hora: "07:00"        # HH:MM, hora local del servidor
-    tipo: resumen        # arma el resumen del día desde la agenda
+    tipo: dashboard      # envía el avance de tiempo del día
   - hora: "14:00"
-    mensaje: "Mensaje para las 14"
-  - hora: "23:00"
-    mensaje: "Mensaje ppara las 23"
+    mensaje: "¿Ya comiste? 🍽️"
+  - hora: "23:59"
+    tipo: auto_cierre    # cierra el cronómetro abierto
     # dias: [L,M,X,J,V]  # opcional; si se omite, todos los días
 ```
 
-### `data/agenda.md`
-Markdown con secciones fijas (`## Prioridades`, `## Reuniones`, `## Deadlines`,
-`## Recordatorios`). Reuniones empiezan con `HH:MM`; deadlines con `AAAA-MM-DD`.
-
 ## Comandos del bot (Telegram)
 
-- `prioridad: <texto>` — agrega una prioridad del día.
-- `deadline: AAAA-MM-DD <texto>` — registra un deadline.
-- `recordatorio: <texto>` — agrega recordatorio (varios separados por coma).
-- `hoy` — responde con el resumen del día.
+- `empiezo <actividad>` (o `inicio` / `voy a`) — arranca el cronómetro; si había
+  otro en curso, lo cierra solo.
+- `termino` (o `paro` / `listo`) — cierra el cronómetro en curso.
+- `+<actividad> <min>` (ej. `+tesis 45`) — registro manual de respaldo.
+- `hoy` — dashboard de avance del día con barras.
+- `actividades` — metas configuradas.
+- `ayuda` — lista de comandos.
 
 ## Requisitos
 

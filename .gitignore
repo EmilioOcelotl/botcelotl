@@ -10,6 +10,9 @@ botcelotl-venv/
 # Datos personales: solo en local (ver data/*.example)
 data/agenda.md
 data/rutinas.yaml
+data/actividades.yaml
+data/sesion.json
+data/bitacora.jsonl
 
 # OS-specific
 .DS_Store
